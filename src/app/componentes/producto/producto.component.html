@@ -1,0 +1,53 @@
+<app-home></app-home>
+<div style="margin: 0px 300px;">
+    <h1>Tabla productos</h1>
+    <p-button (click)="showDialog()" label="Crear"></p-button>
+<p-table [value]="productos" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Acción</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-producto let-i="rowIndex">
+        <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>
+                <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded" (click)="selectProducto(producto)"></button>
+                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="eliminarProducto(producto.id)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <h1 class="modal-title fs-5" *ngIf="!isUpdate">Agregar Producto</h1>
+    <h1 class="modal-title fs-5" *ngIf="isUpdate">Actualizar Producto</h1>
+    <form [formGroup]="formProducto">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="nombre" class="font-semibold w-6rem">Nombre</label>
+            <input pInputText id="nombre" class="flex-auto" formControlName="nombre" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="precio" class="font-semibold w-6rem">Precio</label>
+            <input pInputText id="precio" class="flex-auto"  formControlName="precio" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="cantidad" class="font-semibold w-6rem">Cantidad</label>
+            <input pInputText id="cantidad" class="flex-auto" formControlName="cantidad" />
+        </div>
+    </form>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancelar" severity="secondary" (onClick)="visible = false" />
+        <p-button label="Agregar" (click)="CrearProductos()" *ngIf="!isUpdate" />
+        <p-button label="Actualizar" (click)="actualizarProducto()" *ngIf="isUpdate"/>
+    </div>
+</p-dialog>
